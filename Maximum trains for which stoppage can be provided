@@ -1,3 +1,21 @@
+Sample Input 1:
+2
+5 2
+0950 1005 1
+1000 1030 1
+1015 1030 1
+1200 1205 2
+1215 1230 2
+4 1
+1200 1210 1
+1205 1220 1
+1215 1230 1
+1215 1240 1
+Sample Output 1:
+4
+2
+
+
 #include <bits/stdc++.h> 
 bool comp(vector<int>&a,vector<int>&b)
 {
