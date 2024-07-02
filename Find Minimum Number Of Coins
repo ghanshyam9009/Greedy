@@ -1,0 +1,45 @@
+vector<int> MinimumCoins(int n)
+
+{
+
+vector<int> currency = {1000, 500, 100, 50, 20, 10, 5, 2, 1};
+
+vector<int>ans;
+
+int sum=0;
+
+for(int i=0 ; i<currency.size() ; i++)
+
+{
+
+while(sum<=n)
+{  
+  if (sum+currency[i] <= n)
+   {
+       sum=sum+currency[i];
+       ans.push_back(currency[i]);
+   }
+
+   else 
+
+   {
+
+       break;
+
+   }
+
+}
+
+   if(sum==n)
+
+   {
+
+       break;
+
+   }
+
+}
+
+  return ans;
+
+}
