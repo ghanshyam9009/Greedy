@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+
+long long minimumCost(vector<int> &cost, int n, int k)
+{
+    sort(cost.begin(),cost.end());
+    long long mini = 0;
+    int end = n-1;
+    int start = 0;
+
+    while(start<=end)
+    {
+        mini += cost[start++];
+        end -= k;
+    }
+    return mini;
+}
+
+
+long long maximumCost(vector<int> &cost, int n, int k)
+{
+    sort(cost.begin(),cost.end(),greater<int>());
+    long long maxi = 0;
+    int end = n-1;
+    int start = 0;
+
+    while(start<=end)
+    {
+        maxi += cost[start++];
+        end -= k;
+
+    }
+    return maxi;
+}
