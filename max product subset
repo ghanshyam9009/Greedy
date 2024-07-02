@@ -1,0 +1,69 @@
+#include <bits/stdc++.h> 
+
+long long int maxProductSubset(vector<int> &arr, int n)
+
+{
+    // Write your code here.
+    int mod=1000000007;
+    sort(arr.begin(),arr.end());
+
+    int neg=0,z=0;
+    long long ans=1;
+
+    if(arr.size()==1)
+    {
+        return arr[0];
+    }
+
+
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]<0)
+        {
+            neg++;
+        }
+        else if(arr[i]==0)
+        {
+            z++;
+            // continue;
+        }
+        else
+        {
+            ans=(ans*arr[i])%mod;
+            // b=true;
+        }
+    }
+
+ 
+
+    if(neg==1 && z>0 && z+neg==n)
+    {
+              return 0;
+    }
+
+ 
+
+    if(neg%2)
+    {
+        neg--;
+    }
+
+ 
+
+    int i=0;
+
+    while(neg--)
+    {
+        ans= ans*(arr[i])%mod;
+        i++;
+    }
+
+    
+
+    if(z==n)
+
+    return 0;
+
+    return ans;
+
+}
