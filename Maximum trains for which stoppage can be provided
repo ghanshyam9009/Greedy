@@ -1,0 +1,22 @@
+#include <bits/stdc++.h> 
+bool comp(vector<int>&a,vector<int>&b)
+{
+    return a[1]<b[1];
+}
+
+int maxStop(vector<vector<int>> &trains, int n, int m)
+{
+    sort(trains.begin(),trains.end(),comp);
+    vector<int>platforms(m+1,0);
+    int ans=0;
+    for (int i=0;i<n;i++)
+    {
+        int ind=trains[i][2];
+        if (platforms[ind]<=trains[i][0])
+        {
+            platforms[ind]=trains[i][1];
+            ans++;
+        }
+    }
+    return ans;
+}
