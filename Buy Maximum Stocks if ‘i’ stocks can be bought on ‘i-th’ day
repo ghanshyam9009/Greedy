@@ -1,0 +1,47 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+// Comparator function to sort pairs by price
+bool comp(pair<int, int> a, pair<int, int> b) {
+    return (a.first < b.first);
+}
+
+int maxStock(vector<int> &prices, int n, int amount) {
+    // Create a vector of pairs to store price and day information
+    vector<pair<int, int>> vec(n);
+    for (int i = 0; i < n; i++) {
+        vec[i].first = prices[i];
+        vec[i].second = (i + 1); // Day is i+1
+    }
+
+    // Sort the vector by price
+    sort(vec.begin(), vec.end(), comp);
+
+    int count = 0;
+
+    // Iterate through the sorted list and try to buy as many stocks as possible
+    for (int i = 0; i < n; i++) {
+        int price = vec[i].first;
+        int number = vec[i].second;
+
+        if ((price * number) <= amount) {
+            // If we can afford all 'number' stocks on this day
+            count += number;
+            amount -= (price * number);
+        } else {
+            // If we cannot afford all 'number' stocks, buy as many as we can
+            count += (amount / price);
+            amount -= ((amount / price) * price);
+        }
+    }
+
+    return count;
+}
+
+// int main() {
+//     vector<int> prices = {10, 7, 19};
+//     int n = prices.size();
+//     int amount = 45;
+//     cout << maxStock(prices, n, amount) << endl;
+//     return 0;
+// }
