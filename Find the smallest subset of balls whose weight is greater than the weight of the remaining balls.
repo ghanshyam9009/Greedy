@@ -1,0 +1,84 @@
+Problem statement
+You have been given an array/list ‘arr’ of integers consisting of ‘n’ integers which are the weight of ‘n’ balls. Your task is to return the size of the smallest subset of balls whose weight is greater than the weight of the remaining balls.
+
+Example:
+You have 3 balls of weight 1, 2, and 3. You can take subset (1, 3) or (2, 3) as their total weight is greater than the weight of the remaining balls. The answer will be 2.
+
+Green balls are taken in a subset.
+Note:
+You do not need to print anything; it has already been taken care of. Just implement the function.
+Detailed explanation ( Input/output format, Notes, Images )
+Constraints:
+1 <= T <= 10
+1 <= N <= 1000
+1 <= ‘arr[i]’ <= 10^6
+
+Where ‘T’ is the number of test cases.‘N’ is the number of elements in the array/list. ‘arr[i]’ is the weight of the ith ball.  
+
+Time Limit: 1sec
+Sample Input 1:
+2
+2
+1 2  
+2
+1 1
+Sample Output 1:
+1
+2
+Sample Output 1 Explanation:
+Test case1:
+
+All the possible subsets are:-
+{1} → Total weight of balls in subset 1.Sum of weights of remaining balls 2.It is an invalid subset since the weight of balls in the subset is not greater than the weight of the remaining balls.
+{2} → Total weight of balls in subset 2.Sum of weights of remaining balls 1. It is a valid subset since the weight of balls in the subset is greater than the weight of the remaining balls.
+{1,2} → Total weight of balls in subset 3.Sum of weights of remaining balls 0.It is a valid subset since the weight of balls in the subset is greater than the weight of the remaining balls.
+
+Therefore the minimum subset size is 1.
+
+Test case 2:
+
+All the possible subsets are:-
+{1} → Total weight of balls in subset 1.Sum of weights of remaining balls 1.It is an invalid subset since the weight of balls in the subset is not greater than the weight of the remaining balls.
+{1,1} → Total weight of balls in subset 2.Sum of weights of remaining balls 0.It is a valid subset since the weight of balls in the subset is greater than the weight of the remaining balls.
+
+Therefore the minimum subset size is 2.
+Sample Input 2:
+2
+7
+15 5 11 13 17 10 20
+8
+1 2 3 4 4 3 2 1
+Sample Output 2:
+3
+3
+
+
+
+#include <bits/stdc++.h> 
+int smallestSubset(vector < int > arr, int n) 
+{
+  int sum=0;
+  sort(arr.begin(),arr.end());
+  for (int i=0;i<n;i++)
+  {
+	  sum+=arr[i];
+  }    
+  int ans=0;
+  int curSum=0;
+  for (int i=n-1;i>=0;i--)
+  {
+     ans++;
+	 curSum+=arr[i];
+	 if (curSum>sum/2) return ans;
+  }
+  return ans;
+}
+
+
+// subset_sum > S−subset_sum
+
+// Simplifying this inequality:
+
+// subset_sum >𝑆/2
+
+
