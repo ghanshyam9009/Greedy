@@ -1,0 +1,39 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int boardCutting(vector<int>& horizontal, vector<int>& vertical, int m, int n) {
+    // Sort the cost arrays in descending order
+    sort(horizontal.rbegin(), horizontal.rend());
+    sort(vertical.rbegin(), vertical.rend());
+
+    long long h = 1; // initial horizontal segment count
+    long long v = 1; // initial vertical segment count
+    int cost = 0;
+    int i = 0, j = 0;
+
+    while (i < m-1 && j < n-1) {
+        if (horizontal[i] >= vertical[j]) {
+            cost += horizontal[i] * v;
+            h++;
+            i++;
+        } else {
+            cost += vertical[j] * h;
+            v++;
+            j++;
+        }
+    }
+
+    // Add remaining horizontal cuts   
+    while (i < m-1) {
+        cost += horizontal[i] * v;
+        i++;
+    }
+
+    // Add remaining vertical cuts
+    while (j < n-1) {
+        cost += vertical[j] * h;
+        j++;
+    }
+
+    return cost;
+}
