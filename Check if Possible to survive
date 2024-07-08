@@ -1,0 +1,23 @@
+
+#include <bits/stdc++.h> 
+bool isPossibleToSurvive(int n, int x, int d){
+    int sunday = d / 7;
+    int buydays = d - sunday;
+    int totalfood = n * d;  // Corrected total food calculation
+    int ans = 0;
+
+    if (totalfood % x == 0)
+        ans = (totalfood / x);
+    else 
+        ans = (totalfood / x) + 1;
+    
+    if (ans <= buydays)
+        return true;
+    else 
+        return false;
+}
+
+
+// n = unit of food  buy in a day
+// x = unit of food require to survur each day
+// d = number of days to surviue
