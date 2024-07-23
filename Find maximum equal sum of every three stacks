@@ -1,0 +1,46 @@
+Maximum Equal Stack Sum
+
+
+#include <bits/stdc++.h> 
+
+int findSum(stack<int> st){
+    int sum = 0;
+
+    while(!st.empty()){
+        sum += st.top();
+        st.pop();
+    }
+
+    return sum;
+}
+
+int maxSum(stack<int> &stk1, stack<int> &stk2, stack<int> &stk3) {
+    int sum1 = findSum(stk1);
+    int sum2 = findSum(stk2);
+    int sum3 = findSum(stk3);
+
+    while(sum1 != sum2 || sum2 != sum3 || sum3 != sum1){
+
+        if (stk1.empty() || stk2.empty() || stk3.empty()) {
+            // If any stack is empty, all will be empty at the end
+            return 0;
+        }
+        
+        int maxi = max({sum1, sum2, sum3});
+
+        if(maxi == sum1){
+            sum1 -= stk1.top();
+            stk1.pop();
+        }
+        if(maxi == sum2){
+            sum2 -= stk2.top();
+            stk2.pop();
+        }
+        if(maxi == sum3){
+            sum3 -= stk3.top();
+            stk3.pop();
+        }
+    }
+
+    return sum3;
+}
