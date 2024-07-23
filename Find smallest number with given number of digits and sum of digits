@@ -1,0 +1,88 @@
+Sample Input 1 :
+2
+2 8
+3 1
+Sample Output 1 :
+17 
+100
+Explanation of Sample Input 1 :
+Test Case 1 :  
+N = 2 and K = 8. 
+All two-digit numbers  whose sum of digits = 8 are [17, 26, 35, 44, 53, 62, 71, 80]
+The smallest two-digit number whose sum of digits = 8 is 17. 
+
+Test Case 2 : 
+N = 3 and K = 1. 
+The smallest three-digit number whose sum of digits = 1 is 100. 
+Sample Input 2 :
+2
+4 5 
+1 8
+Sample Output 2 :
+1004
+8
+Explanation of Sample Input 2 :
+Test Case 1 :  
+N = 4 and K = 5. 
+The smallest four-digit number whose sum of digits = 5 is 1004. 
+
+Test Case 2 : 
+N = 1 and K = 8. 
+The smallest one-digit number whose sum of digits = 8 is 8. 
+
+
+
+
+
+
+
+#include <bits/stdc++.h> 
+using namespace std;
+
+string smallestNumber(int n, int k) {
+    // Check if the number is possible
+    if (k == 0) {
+        if (n == 1) return "0";
+        else return "-1";
+    }
+    if (k > 9 * n) return "-1";
+    
+    // Initialize a vector to store the digits of the number
+    vector<int> digits(n, 0);
+    
+    // Fill the number from the least significant digit to the most significant
+    for (int i = n - 1; i >= 0; i--) {
+        if (k > 9) {
+            digits[i] = 9;
+            k -= 9;
+        } else {
+            digits[i] = k;
+            k = 0;
+        }
+    }
+    
+    // Adjust the digits to make sure the most significant digit is not 0
+    if (digits[0] == 0) {
+        for (int i = 1; i < n; i++) {
+            if (digits[i] > 0) {
+                digits[i]--;
+                digits[0] = 1;
+                break;
+            }
+        }
+    }
+    
+    // Convert the digits to a string
+    string result;
+    for (int i = 0; i < n; i++) {
+        result += (digits[i] + '0');
+    }
+    
+    return result;
+}
+
+// int main() {
+//     int n = 3, k = 20;
+//     cout << smallestNumber(n, k) << endl; // Output: "299"
+//     return 0;
+// }
