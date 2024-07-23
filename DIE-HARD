@@ -1,0 +1,56 @@
+https://www.spoj.com/problems/DIEHARD/
+
+
+#include <iostream>
+#include <queue>
+#include <set>
+#include <tuple>
+
+using namespace std;
+
+// Define the effects of living in each place
+const tuple<int, int> FIRE = {-20, +5};
+const tuple<int, int> WATER = {-5, -10};
+const tuple<int, int> AIR = {+3, +2};
+
+int maxSurvivalTime(int initialHealth, int initialArmor) {
+    queue<tuple<int, int, int>> q; // (health, armor, time)
+    set<pair<int, int>> visited;   // To track visited states
+
+    q.push({initialHealth, initialArmor, 0});
+    visited.insert({initialHealth, initialArmor});
+    int maxTime = 0;
+
+    while (!q.empty()) {
+        auto [health, armor, time] = q.front();
+        q.pop();
+
+        maxTime = max(maxTime, time);
+
+        // Check transitions to fire, water, and air
+        for (const auto& [dHealth, dArmor] : {FIRE, WATER, AIR}) {
+            int newHealth = health + dHealth;
+            int newArmor = armor + dArmor;
+
+            if (newHealth > 0 && newArmor > 0) {
+                if (visited.find({newHealth, newArmor}) == visited.end()) {
+                    visited.insert({newHealth, newArmor});
+                    q.push({newHealth, newArmor, time + 1});
+                }
+            }
+        }
+    }
+
+    return maxTime;
+}
+
+int main() {
+    int t;
+    cin >> t;
+    while (t--) {
+        int H, A;
+        cin >> H >> A;
+        cout << maxSurvivalTime(H, A) << endl;
+    }
+    return 0;
+}
