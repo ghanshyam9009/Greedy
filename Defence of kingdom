@@ -1,0 +1,49 @@
+
+https://www.spoj.com/problems/DEFKIN/
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int maxDefendableArea(int W, int H, vector<pair<int, int>> &attackedPoints) {
+    if (attackedPoints.empty()) {
+        return W * H;
+    }
+
+    vector<int> xCoords, yCoords;
+    for (const auto &point : attackedPoints) {
+        xCoords.push_back(point.first);
+        yCoords.push_back(point.second);
+    }
+
+    // Sort the coordinates
+    sort(xCoords.begin(), xCoords.end());
+    sort(yCoords.begin(), yCoords.end());
+
+    // Find maximum gap in x coordinates
+    int maxXGap = max(xCoords[0] - 1, W - xCoords.back());
+    for (size_t i = 1; i < xCoords.size(); ++i) {
+        maxXGap = max(maxXGap, xCoords[i] - xCoords[i - 1] - 1);
+    }
+
+    // Find maximum gap in y coordinates
+    int maxYGap = max(yCoords[0] - 1, H - yCoords.back());
+    for (size_t i = 1; i < yCoords.size(); ++i) {
+        maxYGap = max(maxYGap, yCoords[i] - yCoords[i - 1] - 1);
+    }
+
+    // The largest defendable area is the product of the maximum gaps
+    return maxXGap * maxYGap;
+}
+
+int main() {
+    int W = 15, H = 8;
+    vector<pair<int, int>> attackedPoints = {{3, 8}, {11, 2}, {8, 6}};
+    
+    cout << "Largest defendable area: " << maxDefendableArea(W, H, attackedPoints) << endl;
+
+    return 0;
+}
