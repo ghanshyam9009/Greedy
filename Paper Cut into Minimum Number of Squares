@@ -1,0 +1,71 @@
+#include <iostream>
+#include <algorithm>
+using namespace std;
+
+// Function to find the minimum number of squares needed to cover a rectangle
+int minSquares(int n, int m) {
+    // Ensure n is always the larger dimension
+    if (n < m) {
+        swap(n, m);
+    }
+
+    int result = 0;
+
+    // Iterate until the smaller dimension is greater than 0
+    while (m > 0) {
+        // Add the number of squares of size m x m that fit into the rectangle
+        result += n / m;
+        
+        // Update the dimensions of the rectangle
+        int rem = n % m;
+        n = m;
+        m = rem;
+    }
+
+    return result;
+}
+
+// Driver code
+int main() {
+    int T;
+    cin >> T;  // Number of test cases
+
+    while (T--) {
+        int n, m;
+        cin >> n >> m;
+        cout << minSquares(n, m) << endl;
+    }
+
+    return 0;
+}
+
+
+
+///////==================recurssive approach=========================//////
+
+
+#include <iostream>
+#include <algorithm>
+
+// Function to find the minimum number of squares needed to cover a rectangle
+int minSquares(int l, int w) {
+    if (l == w) {
+        return 1; // If the rectangle is already a square, only one square is needed
+    }
+    // Ensure l is always the larger dimension
+    if (l < w) {
+        std::swap(l, w);
+    }
+    // Number of squares needed is the quotient of the division
+    return (l / w) + minSquares(l % w, w);
+}
+
+int main() {
+    int length, width;
+    std::cout << "Enter the dimensions of the rectangle (length width): ";
+    std::cin >> length >> width;
+    
+    std::cout << "Minimum number of squares needed: " << minSquares(length, width) << std::endl;
+    
+    return 0;
+}
