@@ -1,0 +1,71 @@
+https://www.spoj.com/problems/GCJ101BB/
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <limits.h>
+
+using namespace std;
+
+// Function to calculate the minimum number of swaps needed
+int minSwaps(int N, int K, int B, int T, vector<int>& X, vector<int>& V) {
+    vector<double> times(N);
+    
+    // Calculate the time needed for each chick to reach the barn
+    for (int i = 0; i < N; ++i) {
+        times[i] = static_cast<double>(B - X[i]) / V[i];
+    }
+    
+    // Sort the times in ascending order
+    sort(times.begin(), times.end());
+    
+    // Count the number of chicks that are already within time T
+    int withinTimeCount = 0;
+    for (int i = 0; i < N && times[i] <= T; ++i) {
+        withinTimeCount++;
+    }
+    
+    // If already have at least K chicks within time T, no swaps needed
+    if (withinTimeCount >= K) {
+        return 0;
+    }
+    
+    // Try to find the minimum number of swaps required
+    int swapsRequired = 0;
+    for (int i = 0; i < N; ++i) {
+        if (times[i] > T) {
+            swapsRequired++;
+            if (swapsRequired + withinTimeCount >= K) {
+                return swapsRequired;
+            }
+        }
+    }
+    
+    // If it's not possible to have K chicks within time T
+    return -1;
+}
+
+int main() {
+    int C;
+    cin >> C;
+    for (int caseNum = 1; caseNum <= C; ++caseNum) {
+        int N, K, B, T;
+        cin >> N >> K >> B >> T;
+        
+        vector<int> X(N);
+        vector<int> V(N);
+        for (int i = 0; i < N; ++i) cin >> X[i];
+        for (int i = 0; i < N; ++i) cin >> V[i];
+        
+        int result = minSwaps(N, K, B, T, X, V);
+        
+        if (result == -1) {
+            cout << "Case #" << caseNum << ": IMPOSSIBLE" << endl;
+        } else {
+            cout << "Case #" << caseNum << ": " << result << endl;
+        }
+    }
+    return 0;
+}
