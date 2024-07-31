@@ -1,0 +1,76 @@
+https://www.geeksforgeeks.org/path-rectangle-containing-circles/
+
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+// Function to find the minimum number of drops to cover the lake
+int minDropsToCoverLake(vector<pair<double, double>>& drops) {
+    vector<pair<double, double>> intervals;
+
+    // Transform drops into coverage intervals
+    for (const auto& drop : drops) {
+        double x = drop.first;
+        double r = drop.second;
+        double left = max(0.0, x - r);
+        double right = min(1.0, x + r);
+        intervals.emplace_back(left, right);
+    }
+
+    // Sort intervals by starting point, then by ending point (descending)
+    sort(intervals.begin(), intervals.end(), [](const pair<double, double>& a, const pair<double, double>& b) {
+        if (a.first == b.first) {
+            return a.second > b.second; // Sort by end point descending
+        }
+        return a.first < b.first; // Sort by start point ascending
+    });
+
+    int count = 0;
+    double currentEnd = 0.0;
+    size_t i = 0;
+    size_t n = intervals.size();
+
+    while (currentEnd < 1.0) {
+        double bestEnd = currentEnd;
+
+        // Find the best interval that starts before or at the currentEnd
+        while (i < n && intervals[i].first <= currentEnd) {
+            bestEnd = max(bestEnd, intervals[i].second);
+            i++;
+        }
+
+        // If no interval can extend our coverage, return -1 (not possible)
+        if (bestEnd == currentEnd) {
+            return -1; // Not possible to cover the lake
+        }
+
+        // Update current coverage and increment drop count
+        currentEnd = bestEnd;
+        count++;
+    }
+
+    return count;
+}
+
+int main() {
+    // Example drops (x, r)
+    vector<pair<double, double>> drops = {
+        {0.1, 0.2},
+        {0.5, 0.3},
+        {0.9, 0.1},
+        {0.2, 0.4}
+    };
+
+    int result = minDropsToCoverLake(drops);
+    if (result != -1) {
+        cout << "Minimum number of drops required: " << result << endl;
+    } else {
+        cout << "Not possible to cover the lake." << endl;
+    }
+
+    return 0;
+}
