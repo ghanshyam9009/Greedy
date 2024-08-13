@@ -1,0 +1,61 @@
+Input: word = "abcde"
+Output: 5
+Explanation: The remapped keypad given in the image provides the minimum cost.
+"a" -> one push on key 2
+"b" -> one push on key 3
+"c" -> one push on key 4
+"d" -> one push on key 5
+"e" -> one push on key 6
+Total cost is 1 + 1 + 1 + 1 + 1 = 5.
+It can be shown that no other mapping can provide a lower cost.
+
+
+
+class Solution {
+public:
+    int minimumPushes(string& word) {
+        int freq[26]={0};
+
+        for(char c: word) 
+            freq[c-'a']++;
+        sort(freq, freq+26, greater<int>());
+    
+        int push=1, ans=0;
+        for(int i=0; i<26 && freq[i]!=0; i++){
+            if (i>=8 && i%8==0) push++;
+            ans+=freq[i]*push;    
+        }
+        return ans;
+    }
+};
+
+
+
+
+
+
+// class Solution {
+// public:
+//     int minimumPushes(string word) {
+//         unordered_map<char, int> charCount;
+//         for (char c : word) {
+//             charCount[c]++;
+//         }
+        
+//         priority_queue<int> freqHeap;
+//         for (const auto& pair : charCount) {
+//             freqHeap.push(pair.second);
+//         }
+        
+//         int totalPresses = 0;
+//         int keyPosition = 0;
+        
+//         while (!freqHeap.empty()) {
+//             totalPresses += (keyPosition / 8 + 1) * freqHeap.top();
+//             freqHeap.pop();
+//             keyPosition++;
+//         }
+        
+//         return totalPresses;
+//     }
+// };
