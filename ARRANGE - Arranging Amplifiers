@@ -1,0 +1,34 @@
+https://www.spoj.com/problems/ARRANGE/
+
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+int main() {
+    int T; // Number of test cases
+    cin >> T;
+
+    while (T--) {
+        int n; // Number of amplifiers
+        cin >> n;
+
+        vector<int> amplifiers(n);
+        for (int i = 0; i < n; ++i) {
+            cin >> amplifiers[i];
+        }
+
+        // Sort amplifiers in descending order
+        sort(amplifiers.rbegin(), amplifiers.rend());
+
+        // Output the result
+        for (int i = 0; i < n; ++i) {
+            cout << amplifiers[i] << " ";
+        }
+        cout << endl;
+    }
+    
+    return 0;
+}
